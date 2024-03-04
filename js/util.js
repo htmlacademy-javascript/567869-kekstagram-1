@@ -1,21 +1,21 @@
 const createIdGenerator = () => {
-    let lastGeneratedId = 0;
+  let lastGeneratedId = 0;
 
-    return function () {
-        lastGeneratedId += 1;
-        return lastGeneratedId;
-    };
+  return function () {
+    lastGeneratedId += 1;
+    return lastGeneratedId;
+  };
 };
 
 const getRandomInteger = (min, max) => {
-    const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-    const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-    const result = Math.random() * (upper - lower + 1) + lower;
-  
-    return Math.floor(result);
+  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
+  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
+  const result = Math.random() * (upper - lower + 1) + lower;
+
+  return Math.floor(result);
 };
 
 const getRandomArrayElement = (array) =>
   array[getRandomInteger(0, array.length - 1)];
 
-export {getRandomInteger, getRandomArrayElement, createIdGenerator };
+export { getRandomInteger, getRandomArrayElement, createIdGenerator };
