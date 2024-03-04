@@ -25,10 +25,11 @@ const DESCRIPTIONS_LIST = [
 const generateCommentId = createIdGenerator();
 
 const createMessage = () => {
-  const uniqueComments = Array.from(new Set(COMMENT_LIST));
-  return Array.from({ length: getRandomInteger(1, 2) }, () =>
-    getRandomArrayElement(uniqueComments)
-  ).join(' ');
+  const uniqueIndices = new Set();
+  while (uniqueIndices.size < getRandomInteger(1, 2)) {
+    uniqueIndices.add(Math.floor(Math.random() * COMMENT_LIST.length));
+  }
+  return Array.from(uniqueIndices).map(index => COMMENT_LIST[index]).join(' ');
 };
 
 const createComment = () => ({
