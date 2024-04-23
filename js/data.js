@@ -25,11 +25,15 @@ const DESCRIPTIONS_LIST = [
 const generateCommentId = createIdGenerator();
 
 const createMessage = () => {
-  const uniqueIndices = new Set();
-  while (uniqueIndices.size < getRandomInteger(1, 2)) {
-    uniqueIndices.add(Math.floor(Math.random() * COMMENT_LIST.length));
+  const uniqueComments = [...new Set(COMMENT_LIST)];
+  const message = [];
+  for (let i = 0; i < 2; i++) {
+    const comment = getRandomArrayElement(uniqueComments);
+    message.push(comment);
+    uniqueComments.splice(uniqueComments.indexOf(comment), 1);
   }
-  return Array.from(uniqueIndices).map((index) => COMMENT_LIST[index]).join(' ');
+
+  return message.join(' ');
 };
 
 const createComment = () => ({
@@ -54,3 +58,4 @@ const getPictures = (count) =>
   Array.from({ length: count }, createPicture);
 
 export { getPictures };
+
