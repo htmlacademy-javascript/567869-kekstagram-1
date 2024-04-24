@@ -18,6 +18,8 @@ const getRandomInteger = (min, max) => {
 const getRandomArrayElement = (array) =>
   array[getRandomInteger(0, array.length - 1)];
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 const createElementWithClass = (tagName, className) => {
   const element = document.createElement(tagName);
   element.classList.add(className);
@@ -28,4 +30,4 @@ const toggleClass = (element, className, isEnabled) => {
   element.classList.toggle(className, isEnabled);
 };
 
-export { getRandomInteger, getRandomArrayElement, createIdGenerator, createElementWithClass, toggleClass };
+export { getRandomInteger, getRandomArrayElement, createIdGenerator, isEscapeKey, createElementWithClass, toggleClass };
