@@ -1,5 +1,5 @@
 import { COMMENTS_PER_LOAD } from './consts.js';
-import { createElementWithClass, toggleClass } from './util.js';
+import { createElementWithClass, isEscapeKey, toggleClass } from './util.js';
 
 const body = document.body;
 const bigPicture = document.querySelector('.big-picture');
@@ -88,7 +88,7 @@ const hideBigPicture = () => {
 };
 
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     hideBigPicture();
   }
