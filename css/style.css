@@ -710,6 +710,14 @@ main {
   border-radius: 5px;
 }
 
+.img-upload__field-wrapper--error {
+  background-color: #fd7d4b;
+  color:#ffffff;
+  font-size: 12px;
+  margin-top: -20px;
+  z-index: 10000;
+  position: relative;
+}
 
 /**
  * Кнопка для отправки изображения
