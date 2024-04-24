@@ -18,4 +18,14 @@ const getRandomInteger = (min, max) => {
 const getRandomArrayElement = (array) =>
   array[getRandomInteger(0, array.length - 1)];
 
-export { getRandomInteger, getRandomArrayElement, createIdGenerator };
+const createElementWithClass = (tagName, className) => {
+  const element = document.createElement(tagName);
+  element.classList.add(className);
+  return element;
+};
+
+const toggleClass = (element, className, isEnabled) => {
+  element.classList.toggle(className, isEnabled);
+};
+
+export { getRandomInteger, getRandomArrayElement, createIdGenerator, createElementWithClass, toggleClass };
