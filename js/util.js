@@ -1,3 +1,5 @@
+const body = document.body;
+
 const createIdGenerator = () => {
   let lastGeneratedId = 0;
 
@@ -30,4 +32,5 @@ const toggleClass = (element, className, isEnabled) => {
   element.classList.toggle(className, isEnabled);
 };
 
-export { getRandomInteger, getRandomArrayElement, createIdGenerator, isEscapeKey, createElementWithClass, toggleClass };
+export { getRandomInteger, getRandomArrayElement, createIdGenerator,
+  isEscapeKey, createElementWithClass, toggleClass, body };

@@ -1,7 +1,6 @@
 import { COMMENTS_PER_LOAD } from './consts.js';
-import { createElementWithClass, isEscapeKey, toggleClass } from './util.js';
+import { body, createElementWithClass, isEscapeKey, toggleClass } from './util.js';
 
-const body = document.body;
 const bigPicture = document.querySelector('.big-picture');
 const commentFragment = document.createDocumentFragment();
 const commentsLoader = bigPicture.querySelector('.comments-loader');

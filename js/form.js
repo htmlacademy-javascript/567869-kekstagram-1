@@ -1,5 +1,5 @@
 import { NUMBER_TAGS, TEXTAREA_SYMBOLS } from './consts.js';
-import { isEscapeKey, toggleClass } from './util.js';
+import { body, isEscapeKey, toggleClass } from './util.js';
 
 const form = document.querySelector('.img-upload__form');
 const photoEditor = document.querySelector('.img-upload__overlay');
@@ -7,9 +7,6 @@ const photoUpload = document.querySelector('#upload-file');
 const photoEditorClose = document.querySelector('#upload-cancel');
 const hashtagsInput = form.querySelector('.text__hashtags');
 const textAreaInput = form.querySelector('.text__description');
-const validateHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
-
-const getHashtagArray = (value) => value.split(' ');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -17,29 +14,55 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-const isHashtagValid = (value) => {
+const errorMessages = {
+  invalidHashtag: 'введен невалидный хештег',
+  hashtagQuantity: 'превышено количетсво хештегов',
+  uniqueHashtag: 'хештеги не могут повторяться',
+  textareaLength: 'длина комментария не может быть больше 140 символов'
+};
+
+const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
+
+const getHashtagArray = (value) => value.split(' ');
+
+const validateHashtags = (value) => {
   const hashtagArrayValue = getHashtagArray(value);
-  return value === '' || hashtagArrayValue.every((tag) => validateHashtag.test(tag));
+
+  if (value !== '' && !hashtagArrayValue.every((tag) => hashtagRegex.test(tag))) {
+    return errorMessages.invalidHashtag;
+  }
+
+  if (hashtagArrayValue.length > NUMBER_TAGS) {
+    return errorMessages.hashtagQuantity;
+  }
+
+  const uniqueHashtag = new Set(hashtagArrayValue
+    .map((tag) => tag.toLowerCase())).size === hashtagArrayValue.length;
+
+  if (!uniqueHashtag) {
+    return errorMessages.uniqueHashtag;
+  }
+
+  return '';
 };
 
-const isHastTagQuantity = (value) => {
-  const hashtagArray = getHashtagArray(value);
-  return hashtagArray.length <= NUMBER_TAGS;
+const validateComment = (value) => {
+  if (value.length > TEXTAREA_SYMBOLS) {
+    return errorMessages.textareaLength;
+  }
+
+  return '';
 };
 
-const isUniqueHashtag = (value) => {
-  const hashtagArray = getHashtagArray(value).map((arrayElement) => arrayElement.toLowerCase());
-  const uniqueHashtag = hashtagArray.filter((tag, index, tags) => tags.indexOf(tag) !== index);
+pristine.addValidator(hashtagsInput, (value) => {
+  const error = validateHashtags(value);
+  return !error;
+}, validateHashtags);
 
-  return uniqueHashtag.length === 0;
-};
-
-const isTextareaLength = (value) => value.length === 0 || value.length <= TEXTAREA_SYMBOLS;
-
-pristine.addValidator(hashtagsInput, isHashtagValid, 'введён невалидный хэштег', 3, true);
-pristine.addValidator(hashtagsInput, isHastTagQuantity, 'превышено количество хэштегов', 1, true);
-pristine.addValidator(hashtagsInput, isUniqueHashtag, 'хэштеги не могут повторятся', 2, true);
-pristine.addValidator(textAreaInput, isTextareaLength, 'длина комментария не может быть больше 140 символов');
+pristine.addValidator(textAreaInput, (value) => {
+  const error = validateComment(value);
+  return !error;
+}, validateComment);
 
 const validatingForm = () => {
   form.addEventListener('submit', (evt) => {
@@ -54,7 +77,7 @@ const validatingForm = () => {
 const openPhotoEditor = () => {
   validatingForm();
   toggleClass(photoEditor, 'hidden', false);
-  toggleClass(document.body, 'modal-open', true);
+  toggleClass(body, 'modal-open', true);
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
@@ -64,7 +87,7 @@ const closePhotoEditor = () => {
   pristine.reset();
 
   toggleClass(photoEditor, 'hidden', true);
-  toggleClass(document.body, 'modal-open', false);
+  toggleClass(body, 'modal-open', false);
 
   document.removeEventListener('keydown', onDocumentKeydown);
 };
