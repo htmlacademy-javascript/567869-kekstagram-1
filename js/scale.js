@@ -14,8 +14,11 @@ const updateScale = (newScale) => {
   previewImage.style.transform = `scale(${currentScale / 100})`;
 };
 
+<<<<<<< HEAD
 const resetScale = () => updateScale(DEFAULT_SCALE);
 
+=======
+>>>>>>> f3126a6ba52b2f30f5e8121606dfe4dfee6b575a
 smallerBtn.addEventListener('click', () => {
   const newScale = currentScale - SCALE_STEP;
   if (newScale >= SCALE_MIN) {
@@ -30,4 +33,8 @@ biggerBtn.addEventListener('click', () => {
   }
 });
 
+<<<<<<< HEAD
 export {updateScale, resetScale};
+=======
+export {updateScale};
+>>>>>>> f3126a6ba52b2f30f5e8121606dfe4dfee6b575a

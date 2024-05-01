@@ -11,4 +11,7 @@ renderGallery(picturesData);
 photoEditorInit();
 
 updateScale(DEFAULT_SCALE);
+<<<<<<< HEAD
 
+=======
+>>>>>>> f3126a6ba52b2f30f5e8121606dfe4dfee6b575a
