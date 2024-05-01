@@ -1,4 +1,6 @@
 import { NUMBER_TAGS, TEXTAREA_SYMBOLS } from './consts.js';
+import { resetEffect } from './effects.js';
+import { resetScale } from './scale.js';
 import { body, isEscapeKey, toggleClass } from './util.js';
 
 const form = document.querySelector('.img-upload__form');
@@ -16,7 +18,7 @@ const pristine = new Pristine(form, {
 
 const errorMessages = {
   invalidHashtag: 'введен невалидный хештег',
-  hashtagQuantity: 'превышено количетсво хештегов',
+  hashtagQuantity: 'превышено количество хештегов',
   uniqueHashtag: 'хештеги не могут повторяться',
   textareaLength: 'длина комментария не может быть больше 140 символов'
 };
@@ -24,7 +26,6 @@ const errorMessages = {
 const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const getHashtagArray = (value) => value.split(' ');
-
 const validateHashtags = (value) => {
   const hashtagArrayValue = getHashtagArray(value);
 
@@ -42,7 +43,6 @@ const validateHashtags = (value) => {
   if (!uniqueHashtag) {
     return errorMessages.uniqueHashtag;
   }
-
   return '';
 };
 
@@ -50,7 +50,6 @@ const validateComment = (value) => {
   if (value.length > TEXTAREA_SYMBOLS) {
     return errorMessages.textareaLength;
   }
-
   return '';
 };
 
@@ -85,7 +84,8 @@ const openPhotoEditor = () => {
 const closePhotoEditor = () => {
   form.reset();
   pristine.reset();
-
+  resetScale();
+  resetEffect();
   toggleClass(photoEditor, 'hidden', true);
   toggleClass(body, 'modal-open', false);
 
