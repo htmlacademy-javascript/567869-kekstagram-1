@@ -5,7 +5,7 @@ import { showErrorMessage, showSuccessMessage } from './notification.js';
 const form = document.querySelector('.img-upload__form');
 const hashtagsInput = form.querySelector('.text__hashtags');
 const textAreaInput = form.querySelector('.text__description');
-const submitButton = form.querySelector('.img-upload__submit');
+const submitButton = form.querySelector('#upload-submit');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -63,10 +63,12 @@ pristine.addValidator(textAreaInput, (value) => {
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
+  submitButton.textContent = 'Публикую..';
 };
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
 };
 
 const setFormEditSubmit = (onSuccess) => {
@@ -80,7 +82,7 @@ const setFormEditSubmit = (onSuccess) => {
         .then(onSuccess)
         .then(showSuccessMessage)
         .catch(showErrorMessage)
-        .finally(unblockSubmitButton());
+        .finally(() => unblockSubmitButton());
     }
   });
 };
