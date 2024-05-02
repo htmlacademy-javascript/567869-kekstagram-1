@@ -1,10 +1,16 @@
-import { PICTURES_COUNT } from './consts.js';
-import { getPictures } from './data.js';
-import { photoEditorInit } from './form.js';
+import { imageUploadInit } from './image-upload.js';
 import { renderGallery } from './gallery.js';
+import { getData } from './api.js';
+import { showAlert } from './util.js';
 
-const picturesData = getPictures(PICTURES_COUNT);
+getData()
+  .then((pictures) => {
+    renderGallery(pictures);
+  })
+  .catch(
+    (err) => {
+      showAlert(err.message);
+    }
+  );
 
-renderGallery(picturesData);
-
-photoEditorInit();
+imageUploadInit();
