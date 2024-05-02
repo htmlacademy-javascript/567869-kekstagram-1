@@ -1,13 +1,16 @@
-import { DEFAULT_SCALE, PICTURES_COUNT } from './consts.js';
-import { getPictures } from './data.js';
-import { photoEditorInit } from './photo-editor.js';
+import { imageUploadInit } from './image-upload.js';
 import { renderGallery } from './gallery.js';
-import { updateScale } from './scale.js';
+import { getData } from './api.js';
+import { showAlert } from './util.js';
 
-const picturesData = getPictures(PICTURES_COUNT);
+getData()
+  .then((pictures) => {
+    renderGallery(pictures);
+  })
+  .catch(
+    (err) => {
+      showAlert(err.message);
+    }
+  );
 
-renderGallery(picturesData);
-
-photoEditorInit();
-
-updateScale(DEFAULT_SCALE);
+imageUploadInit();
