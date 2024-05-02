@@ -1,4 +1,4 @@
-import { DEFAULT_SCALE, SCALE_MAX, SCALE_MIN, SCALE_STEP } from './consts.js';
+import { DEFAULT_SCALE, SCALE_MAX, SCALE_MIN, SCALE_STEP } from './image-edit-consts.js';
 
 const smallerBtn = document.querySelector('.scale__control--smaller');
 const biggerBtn = document.querySelector('.scale__control--bigger');

@@ -1,4 +1,5 @@
-import { toggleClass } from './util.js';
+import { toggleClass } from '../util.js';
+import { EFFECT_SETTINGS } from './image-edit-consts.js';
 
 const effects = document.querySelectorAll('.effects__radio');
 const previewImage = document.querySelector('.img-upload__preview img');
@@ -8,43 +9,14 @@ const effectLevelContainer = document.querySelector('.img-upload__effect-level')
 
 let currentEffect = 'none';
 
-const effectSettings = {
-  none: {},
-  chrome: {
-    range: { min: 0, max: 1},
-    start: 1,
-    step: 0.1
-  },
-  sepia: {
-    range: { min: 0, max: 1},
-    start: 1,
-    step: 0.1
-  },
-  marvin: {
-    range: { min: 0, max: 100},
-    start: 100,
-    step: 1
-  },
-  phobos: {
-    range: { min: 0, max: 3},
-    start: 3,
-    step: 0.1
-  },
-  heat: {
-    range: { min: 1, max: 3},
-    start: 3,
-    step: 0.1
-  }
-};
-
 const setEffect = (effect) => {
   previewImage.className = `effects__preview--${effect}`;
   currentEffect = effect;
   toggleClass(effectLevelContainer, 'hidden', effect === 'none');
 
   if (effect !== 'none') {
-    effectSlider.noUiSlider.updateOptions(effectSettings[effect]);
-    effectSlider.noUiSlider.set(effectSettings[effect].start);
+    effectSlider.noUiSlider.updateOptions(EFFECT_SETTINGS[effect]);
+    effectSlider.noUiSlider.set(EFFECT_SETTINGS[effect].start);
   }
 };
 
@@ -99,7 +71,7 @@ const initSlider = () => {
 for (const effect of effects) {
   effect.addEventListener('change', () => {
     setEffect(effect.value);
-    setEffectLevel(effectSettings[effect.value].start);
+    setEffectLevel(EFFECT_SETTINGS[effect.value].start);
   });
 }
 

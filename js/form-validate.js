@@ -1,14 +1,11 @@
+import { sendData } from './api.js';
 import { NUMBER_TAGS, TEXTAREA_SYMBOLS } from './consts.js';
-import { resetEffect } from './effects.js';
-import { resetScale } from './scale.js';
-import { body, isEscapeKey, toggleClass } from './util.js';
+import { showErrorMessage, showSuccessMessage } from './notification.js';
 
 const form = document.querySelector('.img-upload__form');
-const photoEditor = document.querySelector('.img-upload__overlay');
-const photoUpload = document.querySelector('#upload-file');
-const photoEditorClose = document.querySelector('#upload-cancel');
 const hashtagsInput = form.querySelector('.text__hashtags');
 const textAreaInput = form.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -63,55 +60,33 @@ pristine.addValidator(textAreaInput, (value) => {
   return !error;
 }, validateComment);
 
-const validatingForm = () => {
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+};
+
+const setFormEditSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
     const isValid = pristine.validate();
 
-    if (!isValid) {
-      evt.preventDefault();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .then(showSuccessMessage)
+        .catch(showErrorMessage)
+        .finally(unblockSubmitButton());
     }
   });
 };
 
-const openPhotoEditor = () => {
-  validatingForm();
-  toggleClass(photoEditor, 'hidden', false);
-  toggleClass(body, 'modal-open', true);
-
-  document.addEventListener('keydown', onDocumentKeydown);
-};
-
-const closePhotoEditor = () => {
-  form.reset();
+const resetValidate = () => {
   pristine.reset();
-  resetScale();
-  resetEffect();
-  toggleClass(photoEditor, 'hidden', true);
-  toggleClass(body, 'modal-open', false);
-
-  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-
-    if (document.activeElement === hashtagsInput || document.activeElement === textAreaInput) {
-      evt.stopPropagation();
-    } else {
-      closePhotoEditor();
-    }
-  }
-}
-
-const photoEditorInit = () => {
-  photoUpload.addEventListener('change', () => {
-    openPhotoEditor();
-  });
-
-  photoEditorClose.addEventListener('click', () => {
-    closePhotoEditor();
-  });
-};
-
-export {photoEditorInit};
+export {setFormEditSubmit, resetValidate};
