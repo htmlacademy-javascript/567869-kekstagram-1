@@ -43,23 +43,11 @@ const validateHashtags = (value) => {
   return '';
 };
 
-const validateComment = (value) => {
-  if (value.length > TEXTAREA_SYMBOLS) {
-    return errorMessages.textareaLength;
-  }
-  return '';
-};
+const validateComment = (value) =>
+  value.length > TEXTAREA_SYMBOLS ? errorMessages.textareaLength : '';
 
-pristine.addValidator(hashtagsInput, (value) => {
-  const error = validateHashtags(value);
-  return !error;
-}, validateHashtags);
-
-pristine.addValidator(textAreaInput, (value) => {
-  const error = validateComment(value);
-  return !error;
-}, validateComment);
-
+pristine.addValidator(hashtagsInput, (value) => !validateHashtags(value), validateHashtags);
+pristine.addValidator(textAreaInput, (value) => !validateComment(value), validateComment);
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;

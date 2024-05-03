@@ -1,7 +1,7 @@
 import { toggleClass } from '../util.js';
 import { EFFECT_SETTINGS } from './image-edit-consts.js';
 
-const effects = document.querySelectorAll('.effects__radio');
+const form = document.querySelector('.img-upload__form');
 const previewImage = document.querySelector('.img-upload__preview img');
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
@@ -42,7 +42,7 @@ const setEffectLevel = (effectLevel) => {
       break;
     default:
       previewImage.style.filter = '';
-      effectLevelValue.setAttribute('value', 0);
+      effectLevelValue.removeAttribute('value');
   }
 };
 
@@ -52,15 +52,7 @@ const resetEffect = () => {
 };
 
 const initSlider = () => {
-  noUiSlider.create(effectSlider, {
-    range: {
-      min: 0,
-      max: 100,
-    },
-    start: 100,
-    step: 1,
-    connect: 'lower',
-  });
+  noUiSlider.create(effectSlider, EFFECT_SETTINGS.default);
 
   effectSlider.noUiSlider.on('update', () => {
     const value = effectSlider.noUiSlider.get();
@@ -68,14 +60,14 @@ const initSlider = () => {
   });
 };
 
-for (const effect of effects) {
-  effect.addEventListener('change', () => {
-    setEffect(effect.value);
-    setEffectLevel(EFFECT_SETTINGS[effect.value].start);
-  });
-}
-
 initSlider();
 setEffect(currentEffect);
+
+form.addEventListener('change', (event) => {
+  if (event.target.classList.contains('effects__radio')) {
+    setEffect(event.target.value);
+    setEffectLevel(EFFECT_SETTINGS[event.target.value].start);
+  }
+});
 
 export {resetEffect};
