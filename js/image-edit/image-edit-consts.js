@@ -5,6 +5,15 @@ const SCALE_MAX = 100;
 
 const EFFECT_SETTINGS = {
   none: {},
+  default: {
+    range: {
+      min: 0,
+      max: 100,
+    },
+    start: 100,
+    step: 1,
+    connect: 'lower'
+  },
   chrome: {
     range: { min: 0, max: 1},
     start: 1,
