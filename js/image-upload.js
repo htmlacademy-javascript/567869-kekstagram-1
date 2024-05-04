@@ -45,10 +45,15 @@ const imageUploadInit = () => {
   uploadImage.addEventListener('change', () => {
     const file = uploadImage.files[0];
     const fileName = file.name.toLowerCase();
-
+    const fileUrl = URL.createObjectURL(file);
     const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
     if (matches) {
-      previewImage.src = URL.createObjectURL(file);
+      previewImage.src = fileUrl;
+      const effectsPreview = document.querySelectorAll('.effects__preview');
+      effectsPreview.forEach((preview) => {
+        preview.style.backgroundImage = `url(${fileUrl})`;
+      });
     }
     openImageEdit();
   });
