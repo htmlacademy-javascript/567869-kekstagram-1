@@ -1,13 +1,15 @@
+import { FILE_TYPES } from './consts.js';
 import { resetValidate, setFormEditSubmit } from './form-validate.js';
 import { resetImageEdit } from './image-edit/image-edit.js';
 import { body, isEscapeKey, toggleClass } from './util.js';
 
-const form = document.querySelector('.img-upload__form');
-const uploadOverlay = document.querySelector('.img-upload__overlay');
-const uploadImage = document.querySelector('#upload-file');
-const uploadCancel = document.querySelector('#upload-cancel');
-const hashtagsInput = form.querySelector('.text__hashtags');
-const textAreaInput = form.querySelector('.text__description');
+const imageUploadForm = document.querySelector('.img-upload__form');
+const uploadImage = imageUploadForm.querySelector('#upload-file');
+const uploadOverlay = imageUploadForm.querySelector('.img-upload__overlay');
+const previewImage = uploadOverlay.querySelector('.img-upload__preview img');
+const uploadCancel = uploadOverlay.querySelector('#upload-cancel');
+const hashtagsInput = uploadOverlay.querySelector('.text__hashtags');
+const textAreaInput = uploadOverlay.querySelector('.text__description');
 
 const openImageEdit = () => {
   toggleClass(uploadOverlay, 'hidden', false);
@@ -17,7 +19,7 @@ const openImageEdit = () => {
 };
 
 const closeImageEdit = () => {
-  form.reset();
+  imageUploadForm.reset();
   resetValidate();
   resetImageEdit();
   toggleClass(uploadOverlay, 'hidden', true);
@@ -41,6 +43,13 @@ function onDocumentKeydown(evt) {
 
 const imageUploadInit = () => {
   uploadImage.addEventListener('change', () => {
+    const file = uploadImage.files[0];
+    const fileName = file.name.toLowerCase();
+
+    const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+    if (matches) {
+      previewImage.src = URL.createObjectURL(file);
+    }
     openImageEdit();
   });
 
