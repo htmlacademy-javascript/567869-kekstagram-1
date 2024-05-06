@@ -13,11 +13,11 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-const errorMessages = {
-  invalidHashtag: 'введен невалидный хештег',
-  hashtagQuantity: 'превышено количество хештегов',
-  uniqueHashtag: 'хештеги не могут повторяться',
-  textareaLength: 'длина комментария не может быть больше 140 символов'
+const ErrorMessages = {
+  INVALID_HASHTAG: 'введен невалидный хештег',
+  HASHTAG_QUANTITY: 'превышено количество хештегов',
+  UNIQUE_HASHTAG: 'хештеги не могут повторяться',
+  TEXTAREA_LENGTH: 'длина комментария не может быть больше 140 символов'
 };
 
 const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -27,24 +27,24 @@ const validateHashtags = (value) => {
   const hashtagArrayValue = getHashtagArray(value);
 
   if (value !== '' && !hashtagArrayValue.every((tag) => hashtagRegex.test(tag))) {
-    return errorMessages.invalidHashtag;
+    return ErrorMessages.INVALID_HASHTAG;
   }
 
   if (hashtagArrayValue.length > NUMBER_TAGS) {
-    return errorMessages.hashtagQuantity;
+    return ErrorMessages.HASHTAG_QUANTITY;
   }
 
   const uniqueHashtag = new Set(hashtagArrayValue
     .map((tag) => tag.toLowerCase())).size === hashtagArrayValue.length;
 
   if (!uniqueHashtag) {
-    return errorMessages.uniqueHashtag;
+    return ErrorMessages.UNIQUE_HASHTAG;
   }
   return '';
 };
 
 const validateComment = (value) =>
-  value.length > TEXTAREA_SYMBOLS ? errorMessages.textareaLength : '';
+  value.length > TEXTAREA_SYMBOLS ? ErrorMessages.TEXTAREA_LENGTH : '';
 
 pristine.addValidator(hashtagsInput, (value) => !validateHashtags(value), validateHashtags);
 pristine.addValidator(textAreaInput, (value) => !validateComment(value), validateComment);
