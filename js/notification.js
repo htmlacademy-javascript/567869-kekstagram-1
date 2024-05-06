@@ -1,7 +1,7 @@
 import { onDocumentKeydown } from './image-upload.js';
 import { body, isEscapeKey, toggleClass } from './util.js';
 
-const createMessage = (template, className, button) => {
+const createMessage = (template, className, button, removeModalClass = true) => {
   const messageTemplate = document.querySelector(template)
     .content
     .querySelector(className)
@@ -11,7 +11,10 @@ const createMessage = (template, className, button) => {
 
   const closeMessage = () => {
     body.removeChild(messageTemplate);
-    toggleClass(body, 'modal-open', false);
+
+    if (removeModalClass) {
+      toggleClass(body, 'modal-open', false);
+    }
 
     messageButton.removeEventListener('click', closeMessage);
     document.removeEventListener('click', onDocumentClick);
@@ -43,8 +46,11 @@ const showSuccessMessage = () => {
 };
 
 const showErrorMessage = () => {
-  createMessage('#error', '.error', '.error__button');
+  createMessage('#error', '.error', '.error__button', false);
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-export { showSuccessMessage, showErrorMessage };
+export {
+  showSuccessMessage,
+  showErrorMessage
+};

@@ -28,4 +28,7 @@ const getData = async () => await sendRequest(Route.GET_DATA, ErrorText.GET_DATA
 
 const sendData = async (body) => await sendRequest(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
 
-export {getData, sendData};
+export {
+  getData,
+  sendData
+};

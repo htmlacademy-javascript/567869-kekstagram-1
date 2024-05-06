@@ -2,7 +2,6 @@ import { RANDOM_PICTURES_COUNT } from './consts.js';
 import { createThumbnail } from './thumbnail.js';
 import { debounce, toggleClass } from './util.js';
 
-
 const filters = document.querySelector('.img-filters');
 const imgFiltersForm = filters.querySelector('.img-filters__form');
 const picturesContainer = document.querySelector('.pictures');

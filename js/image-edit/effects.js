@@ -60,14 +60,14 @@ const initSlider = () => {
   });
 };
 
-initSlider();
-setEffect(currentEffect);
-
 imageUploadForm.addEventListener('change', (evt) => {
   if (evt.target.classList.contains('effects__radio')) {
     setEffect(evt.target.value);
     setEffectLevel(EFFECT_SETTINGS[evt.target.value].start);
   }
 });
+
+initSlider();
+setEffect(currentEffect);
 
 export {resetEffect};

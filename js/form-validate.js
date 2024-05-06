@@ -2,12 +2,13 @@ import { sendData } from './api.js';
 import { NUMBER_TAGS, TEXTAREA_SYMBOLS } from './consts.js';
 import { showErrorMessage, showSuccessMessage } from './notification.js';
 
-const form = document.querySelector('.img-upload__form');
-const hashtagsInput = form.querySelector('.text__hashtags');
-const textAreaInput = form.querySelector('.text__description');
-const submitButton = form.querySelector('#upload-submit');
+const imageUploadForm = document.querySelector('.img-upload__form');
+const hashtagsInput = imageUploadForm.querySelector('.text__hashtags');
+const textAreaInput = imageUploadForm.querySelector('.text__description');
+const submitButton = imageUploadForm.querySelector('#upload-submit');
+const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
-const pristine = new Pristine(form, {
+const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
@@ -19,8 +20,6 @@ const ErrorMessages = {
   UNIQUE_HASHTAG: 'хештеги не могут повторяться',
   TEXTAREA_LENGTH: 'длина комментария не может быть больше 140 символов'
 };
-
-const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const getHashtagArray = (value) => value.split(' ');
 const validateHashtags = (value) => {
@@ -46,9 +45,6 @@ const validateHashtags = (value) => {
 const validateComment = (value) =>
   value.length > TEXTAREA_SYMBOLS ? ErrorMessages.TEXTAREA_LENGTH : '';
 
-pristine.addValidator(hashtagsInput, (value) => !validateHashtags(value), validateHashtags);
-pristine.addValidator(textAreaInput, (value) => !validateComment(value), validateComment);
-
 const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = 'Публикую..';
@@ -60,7 +56,7 @@ const unblockSubmitButton = () => {
 };
 
 const setFormEditSubmit = (onSuccess) => {
-  form.addEventListener('submit', async (evt) => {
+  imageUploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
 
@@ -83,4 +79,10 @@ const resetValidate = () => {
   pristine.reset();
 };
 
-export {setFormEditSubmit, resetValidate};
+pristine.addValidator(hashtagsInput, (value) => !validateHashtags(value), validateHashtags);
+pristine.addValidator(textAreaInput, (value) => !validateComment(value), validateComment);
+
+export {
+  setFormEditSubmit,
+  resetValidate
+};
