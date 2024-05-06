@@ -1,7 +1,7 @@
 import { toggleClass } from '../util.js';
 import { EFFECT_SETTINGS } from './image-edit-consts.js';
 
-const form = document.querySelector('.img-upload__form');
+const imageUploadForm = document.querySelector('.img-upload__form');
 const previewImage = document.querySelector('.img-upload__preview img');
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
@@ -63,10 +63,10 @@ const initSlider = () => {
 initSlider();
 setEffect(currentEffect);
 
-form.addEventListener('change', (event) => {
-  if (event.target.classList.contains('effects__radio')) {
-    setEffect(event.target.value);
-    setEffectLevel(EFFECT_SETTINGS[event.target.value].start);
+imageUploadForm.addEventListener('change', (evt) => {
+  if (evt.target.classList.contains('effects__radio')) {
+    setEffect(evt.target.value);
+    setEffectLevel(EFFECT_SETTINGS[evt.target.value].start);
   }
 });
 

@@ -60,17 +60,21 @@ const unblockSubmitButton = () => {
 };
 
 const setFormEditSubmit = (onSuccess) => {
-  form.addEventListener('submit', (evt) => {
+  form.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
 
     if (isValid) {
       blockSubmitButton();
-      sendData(new FormData(evt.target))
-        .then(onSuccess)
-        .then(showSuccessMessage)
-        .catch(showErrorMessage)
-        .finally(() => unblockSubmitButton());
+      try {
+        const response = await sendData(new FormData(evt.target));
+        onSuccess(response);
+        showSuccessMessage();
+      } catch (err) {
+        showErrorMessage(err.message);
+      } finally {
+        unblockSubmitButton();
+      }
     }
   });
 };
