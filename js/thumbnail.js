@@ -27,4 +27,7 @@ const renderThumbnails = (thumbnails) => {
   containerPictures.append(fragment);
 };
 
-export {renderThumbnails, createThumbnail};
+export {
+  renderThumbnails,
+  createThumbnail
+};

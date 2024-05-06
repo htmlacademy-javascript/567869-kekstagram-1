@@ -19,15 +19,20 @@ const openImageEdit = () => {
 };
 
 const closeImageEdit = () => {
-  imageUploadForm.reset();
-  resetValidate();
-  resetImageEdit();
-  toggleClass(uploadOverlay, 'hidden', true);
+  const errorMessage = document.querySelector('.error');
+
+  if (errorMessage) {
+    toggleClass(body, 'modal-open', false);
+  } else {
+    imageUploadForm.reset();
+    resetValidate();
+    resetImageEdit();
+    toggleClass(uploadOverlay, 'hidden', true);
+    toggleClass(body, 'modal-open', false);
+  }
 
   document.removeEventListener('keydown', onDocumentKeydown);
 };
-
-setFormEditSubmit(closeImageEdit);
 
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
@@ -63,4 +68,9 @@ const imageUploadInit = () => {
   });
 };
 
-export {imageUploadInit, onDocumentKeydown};
+setFormEditSubmit(closeImageEdit);
+
+export {
+  imageUploadInit,
+  onDocumentKeydown
+};

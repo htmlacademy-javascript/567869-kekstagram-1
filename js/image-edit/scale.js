@@ -30,4 +30,7 @@ biggerBtn.addEventListener('click', () => {
   }
 });
 
-export {updateScale, resetScale};
+export {
+  updateScale,
+  resetScale
+};

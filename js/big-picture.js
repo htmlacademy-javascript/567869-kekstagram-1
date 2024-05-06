@@ -60,8 +60,6 @@ const onCommentsLoaderClick = () => {
   commentsCurrentSpan.textContent = newComments.length + shownCommentsCount;
 };
 
-commentsLoader.addEventListener('click', onCommentsLoaderClick);
-
 const renderPictureDetails = ({ url, description, comments, likes }) => {
   const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
   bigPictureImg.src = url;
@@ -94,6 +92,8 @@ function onDocumentKeydown(evt) {
 }
 
 const onCancelButtonClick = () => hideBigPicture();
+
+commentsLoader.addEventListener('click', onCommentsLoaderClick);
 bigPictureCancel.addEventListener('click', onCancelButtonClick);
 
 export { showBigPicture };
